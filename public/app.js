@@ -50,7 +50,7 @@ function renderActiveFilters() {
 }
 
 function renderProducts(products) {
-  productGrid.innerHTML = products.map((product, index) => `<article class="product-card" style="animation-delay:${Math.min(index * 35, 180)}ms"><div class="product-image-wrap"><span class="category-tag">${product.category}</span><img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy" /></div><div class="product-info"><h3 class="product-name" title="${product.name}">${product.name}</h3><div class="product-meta"><span class="product-price">${money(product.price)}</span><span class="product-rating">★ ${product.rating.toFixed(1)} <span>(${product.reviews})</span></span></div></div></article>`).join('');
+  productGrid.innerHTML = products.map((product, index) => `<article class="product-card" style="animation-delay:${Math.min(index * 35, 180)}ms"><div class="product-image-wrap"><span class="category-tag">${product.category}</span><img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='/fallback.svg';" /></div><div class="product-info"><h3 class="product-name" title="${product.name}">${product.name}</h3><div class="product-meta"><span class="product-price">${money(product.price)}</span><span class="product-rating">★ ${product.rating.toFixed(1)} <span>(${product.reviews})</span></span></div></div></article>`).join('');
 }
 
 async function loadProducts() {
