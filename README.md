@@ -40,6 +40,12 @@ For development with automatic server restart:
 npm run dev
 ```
 
+Run the server-side unit tests with:
+
+```bash
+npm test
+```
+
 ## API
 
 `GET /api/catalog/options` returns available categories and price bounds.

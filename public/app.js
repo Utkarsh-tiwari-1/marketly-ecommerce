@@ -1,4 +1,4 @@
-const state = { categories: [], minPrice: 0, maxPrice: 2000, minRating: 0, sort: 'featured' };
+const state = { categories: [], minPrice: 0, maxPrice: 2000, minRating: 0, sort: 'featured', priceCeiling: 2000 };
 const categoryList = document.querySelector('#category-list');
 const productGrid = document.querySelector('#product-grid');
 const emptyState = document.querySelector('#empty-state');
@@ -25,8 +25,8 @@ function syncRange() {
   const max = Number(document.querySelector('#max-price').value);
   document.querySelector('#price-display').textContent = `${money(min)} — ${money(max)}`;
   const fill = document.querySelector('#range-fill');
-  fill.style.left = `${(min / state.maxPrice) * 100}%`;
-  fill.style.width = `${((max - min) / state.maxPrice) * 100}%`;
+  fill.style.left = `${(min / state.priceCeiling) * 100}%`;
+  fill.style.width = `${((max - min) / state.priceCeiling) * 100}%`;
 }
 
 function readControls() {
@@ -95,6 +95,7 @@ async function initialize() {
     state.minPriceLimit = options.minPrice;
     state.maxPriceLimit = options.maxPrice;
     state.maxPrice = options.maxPrice;
+    state.priceCeiling = options.maxPrice;
     document.querySelector('#min-price').max = options.maxPrice;
     document.querySelector('#max-price').max = options.maxPrice;
     document.querySelector('#max-price').value = options.maxPrice;
