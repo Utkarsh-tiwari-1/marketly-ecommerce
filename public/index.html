@@ -19,8 +19,8 @@
       <a href="#journal">Journal</a>
     </nav>
     <div class="header-actions">
-      <button class="icon-button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button>
-      <button class="icon-button" aria-label="Shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg><span class="bag-count">2</span></button>
+      <button class="icon-button" id="search-action" aria-label="Search the collection"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button>
+      <button class="icon-button" id="bag-action" aria-label="View shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg><span class="bag-count">2</span></button>
     </div>
   </header>
 
@@ -74,6 +74,14 @@
     </section>
   </main>
 
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-product-name">
+    <div class="dialog-card">
+      <button class="dialog-close" id="dialog-close" aria-label="Close product details">×</button>
+      <div class="dialog-image-wrap"><img id="dialog-product-image" src="/fallback.svg" alt="" /></div>
+      <div class="dialog-details"><p class="eyebrow" id="dialog-product-category">PRODUCT DETAILS</p><h2 id="dialog-product-name"></h2><div class="dialog-price-row"><strong id="dialog-product-price"></strong><span class="product-rating" id="dialog-product-rating"></span></div><p class="dialog-note">A considered piece, selected for the Marketly collection.</p></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <footer id="journal"><span>© 2026 Marketly</span><span>Made for considered living.</span></footer>
   <script src="/app.js"></script>
 </body>

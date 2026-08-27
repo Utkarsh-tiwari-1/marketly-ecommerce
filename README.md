@@ -8,6 +8,7 @@ A demo-ready e-commerce catalog with an instant, combinatorial filter sidebar. C
 - Instant filtering on every interaction, with combined/intersection logic
 - Sorting after filtering: Featured, Price: Low to High, and Top Rated First
 - Responsive product grid with images, category, price, rating, and review count
+- Keyboard-accessible product cards with a lightweight product-details dialog
 - Empty result state with a Reset filters action
 - API input validation and readable 400 error responses
 - Mobile filter drawer

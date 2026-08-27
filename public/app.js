@@ -6,6 +6,8 @@ const errorState = document.querySelector('#error-state');
 const resultCount = document.querySelector('#result-count');
 const activeFilters = document.querySelector('#active-filters');
 let requestNumber = 0;
+let visibleProducts = new Map();
+let toastTimer;
 
 function money(value) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value); }
 
@@ -50,7 +52,28 @@ function renderActiveFilters() {
 }
 
 function renderProducts(products) {
-  productGrid.innerHTML = products.map((product, index) => `<article class="product-card" style="animation-delay:${Math.min(index * 35, 180)}ms"><div class="product-image-wrap"><span class="category-tag">${product.category}</span><img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='/fallback.svg';" /></div><div class="product-info"><h3 class="product-name" title="${product.name}">${product.name}</h3><div class="product-meta"><span class="product-price">${money(product.price)}</span><span class="product-rating">★ ${product.rating.toFixed(1)} <span>(${product.reviews})</span></span></div></div></article>`).join('');
+  visibleProducts = new Map(products.map((product) => [String(product.id), product]));
+  productGrid.innerHTML = products.map((product, index) => `<article class="product-card" tabindex="0" role="button" data-product-id="${product.id}" aria-label="View details for ${product.name}" style="animation-delay:${Math.min(index * 35, 180)}ms"><div class="product-image-wrap"><span class="category-tag">${product.category}</span><img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='/fallback.svg';" /></div><div class="product-info"><h3 class="product-name" title="${product.name}">${product.name}</h3><div class="product-meta"><span class="product-price">${money(product.price)}</span><span class="product-rating">★ ${product.rating.toFixed(1)} <span>(${product.reviews})</span></span></div></div></article>`).join('');
+}
+
+function showToast(message) {
+  const toast = document.querySelector('#toast');
+  toast.textContent = message;
+  toast.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('visible'), 2800);
+}
+
+function openProductDetails(product) {
+  if (!product) return;
+  document.querySelector('#dialog-product-image').src = product.image;
+  document.querySelector('#dialog-product-image').alt = product.name;
+  document.querySelector('#dialog-product-image').onerror = function onImageError() { this.onerror = null; this.src = '/fallback.svg'; };
+  document.querySelector('#dialog-product-category').textContent = product.category;
+  document.querySelector('#dialog-product-name').textContent = product.name;
+  document.querySelector('#dialog-product-price').textContent = money(product.price);
+  document.querySelector('#dialog-product-rating').innerHTML = `★ ${product.rating.toFixed(1)} <span>(${product.reviews} reviews)</span>`;
+  document.querySelector('#product-dialog').showModal();
 }
 
 async function loadProducts() {
@@ -114,6 +137,17 @@ document.querySelector('#sort-select').addEventListener('change', loadProducts);
 document.querySelector('#reset-filters').addEventListener('click', resetFilters);
 document.querySelector('#empty-reset').addEventListener('click', resetFilters);
 document.querySelector('#retry-button').addEventListener('click', loadProducts);
+productGrid.addEventListener('click', (event) => openProductDetails(visibleProducts.get(event.target.closest('.product-card')?.dataset.productId)));
+productGrid.addEventListener('keydown', (event) => {
+  if ((event.key === 'Enter' || event.key === ' ') && event.target.closest('.product-card')) {
+    event.preventDefault();
+    openProductDetails(visibleProducts.get(event.target.closest('.product-card').dataset.productId));
+  }
+});
+document.querySelector('#dialog-close').addEventListener('click', () => document.querySelector('#product-dialog').close());
+document.querySelector('#product-dialog').addEventListener('click', (event) => { if (event.target === event.currentTarget) event.currentTarget.close(); });
+document.querySelector('#search-action').addEventListener('click', () => { document.querySelector('#catalog').scrollIntoView({ behavior: 'smooth' }); showToast('Use the filters to explore the collection.'); });
+document.querySelector('#bag-action').addEventListener('click', () => showToast('Your bag is ready for your next favorite thing.'));
 document.querySelector('#mobile-filter-toggle').addEventListener('click', () => { document.querySelector('#filter-panel').classList.add('open'); document.querySelector('#mobile-filter-toggle').setAttribute('aria-expanded', 'true'); });
 document.querySelector('#close-filters').addEventListener('click', () => { document.querySelector('#filter-panel').classList.remove('open'); document.querySelector('#mobile-filter-toggle').setAttribute('aria-expanded', 'false'); });
 
