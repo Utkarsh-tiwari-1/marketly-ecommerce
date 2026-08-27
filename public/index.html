@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find your next favorite thing with Marketly's smart product filters." />
+  <title>Marketly — Find your next favorite thing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Marketly home"><span class="brand-mark">M</span><span>marketly</span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="active" href="#catalog">Shop</a>
+      <a href="#about">Our story</a>
+      <a href="#journal">Journal</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></button>
+      <button class="icon-button" aria-label="Shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg><span class="bag-count">2</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="about">
+      <div>
+        <p class="eyebrow">THE GOOD STUFF, CURATED</p>
+        <h1>Find your next<br /><em>favorite thing.</em></h1>
+      </div>
+      <p class="hero-copy">Thoughtfully sourced pieces for the way<br class="desktop-only" /> you live, work, and play.</p>
+    </section>
+
+    <section class="catalog-shell" id="catalog">
+      <button class="mobile-filter-button" id="mobile-filter-toggle" aria-expanded="false" aria-controls="filter-panel">☰ <span>Filters</span></button>
+      <aside class="filters" id="filter-panel">
+        <div class="filter-heading"><div><p class="eyebrow">REFINE YOUR SEARCH</p><h2>Filters</h2></div><button class="close-filters" id="close-filters" aria-label="Close filters">×</button></div>
+        <div class="filter-block">
+          <div class="filter-label-row"><h3>Category</h3><span class="selected-category-count" id="category-count">0 selected</span></div>
+          <div class="category-list" id="category-list" aria-label="Categories"></div>
+        </div>
+        <div class="filter-block price-block">
+          <div class="filter-label-row"><h3>Price range</h3><span class="price-display" id="price-display">$0 — $2,000</span></div>
+          <div class="range-wrap" aria-label="Price range from 0 to 2000 dollars">
+            <div class="range-track"></div><div class="range-fill" id="range-fill"></div>
+            <input type="range" id="min-price" min="0" max="2000" step="10" value="0" aria-label="Minimum price" />
+            <input type="range" id="max-price" min="0" max="2000" step="10" value="2000" aria-label="Maximum price" />
+          </div>
+          <div class="range-labels"><span>$0</span><span>$2,000+</span></div>
+        </div>
+        <div class="filter-block rating-block">
+          <div class="filter-label-row"><h3>Minimum rating</h3><span id="rating-display">Any</span></div>
+          <div class="rating-list">
+            <label><input type="radio" name="rating" value="0" checked /><span class="radio-ui"></span>Any rating</label>
+            <label><input type="radio" name="rating" value="5" /><span class="radio-ui"></span><span class="stars">★★★★★</span><span class="rating-text">5 only</span></label>
+            <label><input type="radio" name="rating" value="4" /><span class="radio-ui"></span><span class="stars">★★★★<span class="muted-star">★</span></span><span class="rating-text">4 & up</span></label>
+            <label><input type="radio" name="rating" value="3" /><span class="radio-ui"></span><span class="stars">★★★<span class="muted-star">★★</span></span><span class="rating-text">3 & up</span></label>
+            <label><input type="radio" name="rating" value="2" /><span class="radio-ui"></span><span class="stars">★★<span class="muted-star">★★★</span></span><span class="rating-text">2 & up</span></label>
+            <label><input type="radio" name="rating" value="1" /><span class="radio-ui"></span><span class="stars">★<span class="muted-star">★★★★</span></span><span class="rating-text">1 & up</span></label>
+          </div>
+        </div>
+        <button class="reset-link" id="reset-filters">Clear all filters <span>↗</span></button>
+      </aside>
+
+      <section class="products-area" aria-live="polite">
+        <div class="products-toolbar"><div><p class="eyebrow">OUR COLLECTION</p><div class="results-line"><h2>All pieces</h2><span class="result-count" id="result-count">Loading…</span></div></div><label class="sort-control">Sort by <select id="sort-select" aria-label="Sort products"><option value="featured">Featured</option><option value="price-asc">Price: Low to High</option><option value="rating-desc">Top Rated First</option></select><span class="select-arrow">⌄</span></label></div>
+        <div class="active-filters" id="active-filters"></div>
+        <div class="product-grid" id="product-grid"></div>
+        <div class="empty-state" id="empty-state" hidden><div class="empty-icon">◌</div><h2>Nothing quite fits.</h2><p>No items match your current filters. Let's try opening things up.</p><button class="primary-button" id="empty-reset">Reset filters <span>↗</span></button></div>
+        <div class="error-state" id="error-state" hidden><h2>We couldn't load the collection.</h2><p id="error-message">Please check your connection and try again.</p><button class="secondary-button" id="retry-button">Try again</button></div>
+      </section>
+    </section>
+  </main>
+
+  <footer id="journal"><span>© 2026 Marketly</span><span>Made for considered living.</span></footer>
+  <script src="/app.js"></script>
+</body>
+</html>
