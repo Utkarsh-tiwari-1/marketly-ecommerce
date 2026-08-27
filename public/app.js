@@ -66,6 +66,7 @@ function showToast(message) {
 
 function openProductDetails(product) {
   if (!product) return;
+  const dialog = document.querySelector('#product-dialog');
   document.querySelector('#dialog-product-image').src = product.image;
   document.querySelector('#dialog-product-image').alt = product.name;
   document.querySelector('#dialog-product-image').onerror = function onImageError() { this.onerror = null; this.src = '/fallback.svg'; };
@@ -73,7 +74,14 @@ function openProductDetails(product) {
   document.querySelector('#dialog-product-name').textContent = product.name;
   document.querySelector('#dialog-product-price').textContent = money(product.price);
   document.querySelector('#dialog-product-rating').innerHTML = `★ ${product.rating.toFixed(1)} <span>(${product.reviews} reviews)</span>`;
-  document.querySelector('#product-dialog').showModal();
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+  else dialog.setAttribute('open', '');
+}
+
+function closeProductDetails() {
+  const dialog = document.querySelector('#product-dialog');
+  if (typeof dialog.close === 'function') dialog.close();
+  else dialog.removeAttribute('open');
 }
 
 async function loadProducts() {
@@ -137,15 +145,18 @@ document.querySelector('#sort-select').addEventListener('change', loadProducts);
 document.querySelector('#reset-filters').addEventListener('click', resetFilters);
 document.querySelector('#empty-reset').addEventListener('click', resetFilters);
 document.querySelector('#retry-button').addEventListener('click', loadProducts);
-productGrid.addEventListener('click', (event) => openProductDetails(visibleProducts.get(event.target.closest('.product-card')?.dataset.productId)));
+productGrid.addEventListener('click', (event) => {
+  const card = event.target instanceof Element ? event.target.closest('.product-card') : null;
+  if (card) openProductDetails(visibleProducts.get(card.dataset.productId));
+});
 productGrid.addEventListener('keydown', (event) => {
   if ((event.key === 'Enter' || event.key === ' ') && event.target.closest('.product-card')) {
     event.preventDefault();
     openProductDetails(visibleProducts.get(event.target.closest('.product-card').dataset.productId));
   }
 });
-document.querySelector('#dialog-close').addEventListener('click', () => document.querySelector('#product-dialog').close());
-document.querySelector('#product-dialog').addEventListener('click', (event) => { if (event.target === event.currentTarget) event.currentTarget.close(); });
+document.querySelector('#dialog-close').addEventListener('click', closeProductDetails);
+document.querySelector('#product-dialog').addEventListener('click', (event) => { if (event.target === event.currentTarget) closeProductDetails(); });
 document.querySelector('#search-action').addEventListener('click', () => { document.querySelector('#catalog').scrollIntoView({ behavior: 'smooth' }); showToast('Use the filters to explore the collection.'); });
 document.querySelector('#bag-action').addEventListener('click', () => showToast('Your bag is ready for your next favorite thing.'));
 document.querySelector('#mobile-filter-toggle').addEventListener('click', () => { document.querySelector('#filter-panel').classList.add('open'); document.querySelector('#mobile-filter-toggle').setAttribute('aria-expanded', 'true'); });

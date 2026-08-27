@@ -60,9 +60,10 @@ h3 { margin-bottom: 18px; font-size: 15px; font-weight: 700; }
 .results-line h2 { font-size: 30px; }
 .result-count { color: var(--muted); font-size: 13px; }
 .sort-control { position: relative; display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; white-space: nowrap; }
-.sort-control select { min-width: 185px; padding: 12px 30px 12px 14px; border: 1px solid var(--line); border-radius: 2px; outline: none; background: white; color: var(--ink); font-size: 13px; appearance: none; }
+.sort-control select { min-width: 185px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 2px; outline: none; background-color: #fff; color: var(--ink); color-scheme: light; font-size: 14px; line-height: 1.35; appearance: auto; }
+.sort-control select option { background-color: #fff; color: var(--ink); font-size: 14px; line-height: 1.5; }
 .sort-control select:focus { border-color: var(--ink); }
-.select-arrow { position: absolute; right: 9px; bottom: 8px; color: var(--ink); pointer-events: none; font-size: 16px; }
+.select-arrow { display: none; }
 .active-filters { display: flex; min-height: 38px; align-items: center; gap: 8px; flex-wrap: wrap; }
 .filter-pill { padding: 6px 10px; border-radius: 20px; background: #e9f3d2; color: var(--ink); font-size: 12px; }
 .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 38px 22px; }
