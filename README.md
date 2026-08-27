@@ -21,6 +21,10 @@ A demo-ready e-commerce catalog with an instant, combinatorial filter sidebar. C
 - `public/styles.css` — responsive visual design
 - `public/app.js` — UI state, API calls, and rendering
 
+## Architecture
+
+The browser owns presentation state and requests the catalog whenever a control changes. Express handles the request in `GET /api/catalog`; the server validates query parameters, filters the master inventory with AND logic, sorts the matched products, and returns JSON. The browser renders that response and shows loading, error, or empty states.
+
 ## Run locally
 
 ```bash
